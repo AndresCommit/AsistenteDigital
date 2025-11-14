@@ -1,15 +1,45 @@
 
 import java.io.*;
 public class GestorConfiguracion {
-
     String dirActual = System.getProperty("user.dir");
-    File configuracion = new File("data/config.ser");
+    File configuracion = new File(dirActual + "\\src\\data\\config.ser");
 
-    public void guardarConfig(String url){
+    public void guardarConfig(String url) {
 
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
-    };
+
+        try {
+            // 1. Preparamos el stream para escribir bytes en el fichero.
+            fos = new FileOutputStream(configuracion);
+            // 2. Envolvemos el fos para poder escribir objetos (serializar).
+            oos = new ObjectOutputStream(fos);
+
+            // Escribimos el objeto String (la URL) en el fichero.
+            oos.writeObject(url);
+
+            System.out.println("[CONFIG] Configuración guardada: " + url);
+
+        } catch (IOException e) {
+            System.err.println("Error al guardar la configuración: " + e.getMessage());
+        } finally {
+            // Cerramos los streams en orden inverso al abrirlos
+            try {
+                if (oos != null) {
+                    oos.close();
+                }
+            } catch (IOException e) {
+                System.err.println("Error al cerrar ObjectOutputStream: " + e.getMessage());
+            }
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                System.err.println("Error al cerrar FileOutputStream: " + e.getMessage());
+            }
+        }
+    }
     public String cargarConfig(){
 
         if (!configuracion.exists()) {
