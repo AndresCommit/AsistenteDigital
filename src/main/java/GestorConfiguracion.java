@@ -2,7 +2,7 @@
 import java.io.*;
 public class GestorConfiguracion {
     String dirActual = System.getProperty("user.dir");
-    File configuracion = new File(dirActual + "\\src\\data\\config.ser");
+    File configuracion = new File(dirActual + "\\data\\config.ser");
 
     public void guardarConfig(String url) {
 
