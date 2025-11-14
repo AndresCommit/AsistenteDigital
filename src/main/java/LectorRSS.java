@@ -9,7 +9,7 @@ public class LectorRSS {
     public List<Noticia> parseFeed(String urlString) {
 
         XStream xstream = new XStream();
-
+        xstream.ignoreUnknownElements();
         try {
             xstream.allowTypes(new Class[]{
                     Rss.class,

@@ -1,36 +1,48 @@
-import java.util.List; // Añade esta importación
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
         Scanner entrada = new Scanner(System.in);
         GestorConfiguracion gestor = new GestorConfiguracion();
-        int opcion;
         LectorRSS lector = new LectorRSS();
 
         System.out.println("Iniciando asistente...");
         String urlActual = gestor.cargarConfig();
 
+        if (urlActual == null) {
+            System.err.println("Error crítico: No se pudo cargar la configuración. Saliendo.");
+            return;
+        }
+
+        int opcion = -1;
+
         do {
-            System.out.println("\n--- Menú Asistente Digital ---");
-            System.out.println("1. Probar LectorRSS");
-            System.out.println("3. Ver/Modificar URL del feed");
+            System.out.println("\n--- ASISTENTE DIGITAL DE NOTICIAS ---");
+            System.out.println("1. Actualizar noticias desde el feed"); // Opción 1 de la práctica
+            System.out.println("3. Ver/Modificar URL del feed");    // Opción 3 de la práctica
             System.out.println("0. Salir");
             System.out.print("Elige una opción: ");
-            opcion = entrada.nextInt();
+
+            try {
+                // --- ¡AQUÍ ESTÁ LA CORRECCIÓN! ---
+                // Leemos la línea entera y la convertimos a número.
+                // Esto evita el error de "salto" del nextLine().
+                opcion = Integer.parseInt(entrada.nextLine());
+            } catch (NumberFormatException e) {
+                opcion = -1; // Si introduce letras, será una opción inválida
+            }
 
             switch (opcion) {
                 case 1:
                     System.out.println("Conectando al feed: " + urlActual + "...");
-
                     List<Noticia> noticiasLeidas = lector.parseFeed(urlActual);
 
                     if (noticiasLeidas == null || noticiasLeidas.isEmpty()) {
                         System.out.println("No se han encontrado noticias o hubo un error.");
                     } else {
                         System.out.println("¡Éxito! Se han encontrado " + noticiasLeidas.size() + " noticias.");
-
-                        // Mostramos la primera para comprobar
                         Noticia primeraNoticia = noticiasLeidas.get(0);
                         System.out.println("--- EJEMPLO DE LA PRIMERA NOTICIA ---");
                         System.out.println("Título: " + primeraNoticia.getTitulo());
@@ -39,36 +51,33 @@ public class Main {
                         System.out.println("Fecha (Long): " + primeraNoticia.getFecha());
                     }
                     break;
-                // ---
+
                 case 3:
-                    // 1. Mostramos la URL que tenemos cargada en memoria
+                    // Este código AHORA SÍ funcionará
                     System.out.println("La URL del feed actual es: " + urlActual);
                     System.out.print("Introduce la nueva URL (deja en blanco para no cambiar): ");
 
-                    // 2. Leemos la entrada del usuario
+                    // Esta línea ya no se "saltará"
                     String nuevaUrl = entrada.nextLine();
 
-                    // 3. Comprobamos si la entrada no está vacía
                     if (nuevaUrl != null && !nuevaUrl.trim().isEmpty()) {
-
-                        // 4. Si hay texto, la guardamos en el fichero
                         gestor.guardarConfig(nuevaUrl);
-
-                        // 5. Y actualizamos la variable que usamos en el programa
                         urlActual = nuevaUrl;
                         System.out.println("Configuración guardada correctamente.");
                     } else {
-                        // 6. Si el usuario pulsó Enter sin escribir nada
                         System.out.println("No se han realizado cambios.");
                     }
                     break;
+
                 case 0:
                     System.out.println("Saliendo de la aplicación...");
                     break;
+
                 default:
                     System.out.println("Opción no válida. Inténtalo de nuevo.");
                     break;
             }
+
         } while (opcion != 0);
 
         entrada.close();
