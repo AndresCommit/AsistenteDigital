@@ -104,8 +104,14 @@ MMMMMMMMMMMMMMMMMMMMMMMXooOkkOkkkkkx;..''.............'.............''....''''..
 MMMMMMMMMMMMMMMMMMMMMMMNdokkkOkkkkkOo'.'''............'............''.....'''''.'''''.............................''''''''...''.........................................................................
 
 */
+import java.util.List;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+
+
+        Logger.log(">>> Aplicación iniciada.");
 
         Scanner entrada = new Scanner(System.in);
         GestorConfiguracion gestor = new GestorConfiguracion();
@@ -129,7 +135,6 @@ public class Main {
             System.out.print("Elige una opción: ");
 
             try {
-
                 opcion = Integer.parseInt(entrada.nextLine());
             } catch (NumberFormatException e) {
                 opcion = -1;
@@ -138,12 +143,19 @@ public class Main {
             switch (opcion) {
                 case 1:
                     System.out.println("Conectando al feed: " + urlActual + "...");
+
+                    Logger.log("Iniciando lectura del feed: " + urlActual);
+
                     List<Noticia> noticiasLeidas = lector.parseFeed(urlActual);
 
                     if (noticiasLeidas == null || noticiasLeidas.isEmpty()) {
                         System.out.println("No se han encontrado noticias o hubo un error.");
+                        Logger.log("No se encontraron noticias o hubo error al leer: " + urlActual);
                     } else {
                         System.out.println("¡Éxito! Se han encontrado " + noticiasLeidas.size() + " noticias.");
+
+                        Logger.log("Lectura exitosa. Se han descargado " + noticiasLeidas.size() + " noticias.");
+
                         Noticia primeraNoticia = noticiasLeidas.get(0);
                         System.out.println("--- EJEMPLO DE LA PRIMERA NOTICIA ---");
                         System.out.println("Título: " + primeraNoticia.getTitulo());
@@ -161,6 +173,9 @@ public class Main {
 
                     if (nuevaUrl != null && !nuevaUrl.trim().isEmpty()) {
                         gestor.guardarConfig(nuevaUrl);
+
+                        Logger.log("URL del feed modificada. Antigua: " + urlActual + " -> Nueva: " + nuevaUrl);
+
                         urlActual = nuevaUrl;
                         System.out.println("Configuración guardada correctamente.");
                     } else {
@@ -169,6 +184,7 @@ public class Main {
                     break;
 
                 case 0:
+                    Logger.log("<<< Aplicación finalizada.");
                     System.out.println("Saliendo de la aplicación...");
                     break;
 
