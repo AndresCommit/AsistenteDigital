@@ -21,12 +21,14 @@ public class GestorConfiguracion {
             System.err.println("Error al guardar la configuración: " + e.getMessage());
         } finally {
             try {
-                if (oos != null) oos.close();
+                if (oos != null)
+                    oos.close();
             } catch (IOException e) {
                 System.err.println("Error al cerrar ObjectOutputStream: " + e.getMessage());
             }
             try {
-                if (fos != null) fos.close();
+                if (fos != null)
+                    fos.close();
             } catch (IOException e) {
                 System.err.println("Error al cerrar FileOutputStream: " + e.getMessage());
             }
@@ -38,10 +40,8 @@ public class GestorConfiguracion {
         if (!configuracion.exists()) {
             System.out.println("[CONFIG] 'config.ser' no encontrado. Usando URL por defecto.");
 
-            // He cambiado la URL de ejemplo a la que pide la práctica
             String urlPorDefecto = "xataka.com/feedburner.xml";
 
-            // Esta llamada ahora SÍ funcionará y creará el fichero correctamente
             this.guardarConfig(urlPorDefecto);
 
             return urlPorDefecto;
@@ -60,20 +60,22 @@ public class GestorConfiguracion {
         } catch (FileNotFoundException e) {
             System.err.println("Error: Fichero de config no encontrado: " + e.getMessage());
         } catch (IOException e) {
-            // Si el fichero está corrupto O VACÍO, entrará aquí.
             System.err.println("Error de E/S al leer la configuración (fichero corrupto?): " + e.getMessage());
         } catch (ClassNotFoundException e) {
             System.err.println("Error: El contenido de 'config.ser' no es un String: " + e.getMessage());
         } finally {
             try {
-                if (ois != null) ois.close();
-            } catch (IOException e) { /* no hacer nada */ }
+                if (ois != null)
+                    ois.close();
+            } catch (IOException e) {
+            }
             try {
-                if (fis != null) fis.close();
-            } catch (IOException e) { /* no hacer nada */ }
+                if (fis != null)
+                    fis.close();
+            } catch (IOException e) {
+            }
         }
 
-        // Si la lectura falló (fichero corrupto)
         return null;
     }
 }

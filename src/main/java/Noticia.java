@@ -1,18 +1,29 @@
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class Noticia implements Serializable {
-   private String titulo;
-   private String link;
-   private String fuente;
-   private Long fecha;
+    private String titulo;
+    private String link;
+    private String fuente;
+    private String fecha;
 
-
-   //Constructor noticia
-    public Noticia(String titulo, String link, String fuente, Long fecha) {
+    public Noticia(String titulo, String link, String fuente, String fecha) {
         this.titulo = titulo;
         this.link = link;
         this.fuente = fuente;
         this.fecha = fecha;
+    }
+
+    public long getFechaParsed() {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
+            Date date = sdf.parse(this.fecha);
+            return date.getTime();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public String getTitulo() {
@@ -39,11 +50,11 @@ public class Noticia implements Serializable {
         this.fuente = fuente;
     }
 
-    public Long getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Long fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 }

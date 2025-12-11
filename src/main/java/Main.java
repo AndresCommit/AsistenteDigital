@@ -104,12 +104,10 @@ MMMMMMMMMMMMMMMMMMMMMMMXooOkkOkkkkkx;..''.............'.............''....''''..
 MMMMMMMMMMMMMMMMMMMMMMMNdokkkOkkkkkOo'.'''............'............''.....'''''.'''''.............................''''''''...''.........................................................................
 
 */
-import java.util.List;
-import java.util.Scanner;
+
 
 public class Main {
     public static void main(String[] args) {
-
 
         Logger.log(">>> Aplicación iniciada.");
 
@@ -130,6 +128,7 @@ public class Main {
         do {
             System.out.println("\n--- ASISTENTE DIGITAL DE NOTICIAS ---");
             System.out.println("1. Actualizar noticias desde el feed");
+            System.out.println("2. Ver noticias guardadas");
             System.out.println("3. Ver/Modificar URL del feed");
             System.out.println("0. Salir");
             System.out.print("Elige una opción: ");
@@ -143,26 +142,46 @@ public class Main {
             switch (opcion) {
                 case 1:
                     System.out.println("Conectando al feed: " + urlActual + "...");
+                    Logger.log("Iniciando actualización desde: " + urlActual);
 
-                    Logger.log("Iniciando lectura del feed: " + urlActual);
+                    List<Noticia> noticiasRSS = lector.parseFeed(urlActual);
 
-                    List<Noticia> noticiasLeidas = lector.parseFeed(urlActual);
-
-                    if (noticiasLeidas == null || noticiasLeidas.isEmpty()) {
-                        System.out.println("No se han encontrado noticias o hubo un error.");
-                        Logger.log("No se encontraron noticias o hubo error al leer: " + urlActual);
+                    if (noticiasRSS == null || noticiasRSS.isEmpty()) {
+                        System.out.println("No se han podido descargar noticias.");
                     } else {
-                        System.out.println("¡Éxito! Se han encontrado " + noticiasLeidas.size() + " noticias.");
+                        ArchivoNoticias archivo = new ArchivoNoticias();
+                        List<Noticia> noticiasGuardadas = archivo.leerTodas();
 
-                        Logger.log("Lectura exitosa. Se han descargado " + noticiasLeidas.size() + " noticias.");
+                        int contadorNuevas = 0;
 
-                        Noticia primeraNoticia = noticiasLeidas.get(0);
-                        System.out.println("--- EJEMPLO DE LA PRIMERA NOTICIA ---");
-                        System.out.println("Título: " + primeraNoticia.getTitulo());
-                        System.out.println("Link: " + primeraNoticia.getLink());
-                        System.out.println("Fuente (Autor): " + primeraNoticia.getFuente());
-                        System.out.println("Fecha (Long): " + primeraNoticia.getFecha());
+                        for (Noticia nueva : noticiasRSS) {
+                            boolean yaExiste = false;
+
+                            for (Noticia guardada : noticiasGuardadas) {
+                                if (guardada.getLink().equals(nueva.getLink())) {
+                                    yaExiste = true;
+                                    break;
+                                }
+                            }
+
+                            if (!yaExiste) {
+                                archivo.archivarNoticia(nueva);
+                                contadorNuevas++;
+                            }
+                        }
+
+                        System.out.println("Proceso completado.");
+                        System.out.println("- Noticias recuperadas del RSS: " + noticiasRSS.size());
+                        System.out.println("- Noticias nuevas archivadas: " + contadorNuevas);
+
+                        Logger.log("Actualización completada. Nuevas archivadas: " + contadorNuevas);
                     }
+                    break;
+
+                case 2:
+                    System.out.println("Generando informe del día...");
+                    GeneradorHTML generador = new GeneradorHTML();
+                    generador.generarInforme();
                     break;
 
                 case 3:

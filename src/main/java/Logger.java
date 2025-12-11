@@ -9,7 +9,6 @@ public class Logger {
 
     private static final String RUTA_LOG = "data" + File.separator + "resumen_diario.log";
 
-
     public static void log(String mensaje) {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

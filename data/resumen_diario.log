@@ -2,3 +2,21 @@
 [2025-11-19 20:28:14] Iniciando lectura del feed: https://techcrunch.com/feed
 [2025-11-19 20:28:16] Lectura exitosa. Se han descargado 20 noticias.
 [2025-11-19 20:28:29] <<< Aplicación finalizada.
+[2025-12-11 21:21:50] >>> Aplicación iniciada.
+[2025-12-11 21:22:45] Iniciando actualización desde: https://techcrunch.com/feed
+[2025-12-11 21:22:47] Actualización completada. Nuevas archivadas: 20
+[2025-12-11 21:26:48] >>> Aplicación iniciada.
+[2025-12-11 21:26:57] Informe HTML generado: resumen-2025-12-11.html (0 noticias)
+[2025-12-11 21:27:55] >>> Aplicación iniciada.
+[2025-12-11 21:27:59] Iniciando actualización desde: https://techcrunch.com/feed
+[2025-12-11 21:27:59] Actualización completada. Nuevas archivadas: 0
+[2025-12-11 21:28:03] Informe HTML generado: resumen-2025-12-11.html (0 noticias)
+[2025-12-11 21:31:16] >>> Aplicación iniciada.
+[2025-12-11 21:31:23] URL del feed modificada. Antigua: https://techcrunch.com/feed -> Nueva: https://www.xataka.com/feedburner.xml
+[2025-12-11 21:31:26] Iniciando actualización desde: https://www.xataka.com/feedburner.xml
+[2025-12-11 21:31:27] Actualización completada. Nuevas archivadas: 26
+[2025-12-11 21:31:30] Informe HTML generado: resumen-2025-12-11.html (0 noticias)
+[2025-12-12 00:11:15] >>> Aplicación iniciada.
+[2025-12-12 00:11:22] Iniciando actualización desde: https://www.xataka.com/feedburner.xml
+[2025-12-12 00:11:23] Actualización completada. Nuevas archivadas: 1
+[2025-12-12 00:11:27] Informe HTML generado: resumen-2025-12-12.html (0 noticias)
