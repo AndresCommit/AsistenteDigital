@@ -1,5 +1,7 @@
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ArchivoNoticias {
@@ -41,10 +43,10 @@ public class ArchivoNoticias {
         List<Noticia> lista = new ArrayList<>();
         File file = new File(RUTA_FICHERO);
 
-        if (!file.exists())
-            return lista;
+        if (!file.exists()) return lista;
 
         try (RandomAccessFile raf = new RandomAccessFile(file, "r")) {
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", java.util.Locale.ENGLISH);
 
             while (raf.getFilePointer() + TAM_REGISTRO <= raf.length()) {
 
@@ -52,7 +54,8 @@ public class ArchivoNoticias {
                 String link = readFixedString(raf, TAM_LINK);
                 String fuente = readFixedString(raf, TAM_FUENTE);
                 long fechaLong = raf.readLong();
-                String fechaTexto = new java.util.Date(fechaLong).toString();
+                String fechaTexto = sdf.format(new Date(fechaLong));
+
 
                 Noticia n = new Noticia(titulo, link, fuente, fechaTexto);
                 lista.add(n);

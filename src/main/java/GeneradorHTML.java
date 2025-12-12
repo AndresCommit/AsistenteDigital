@@ -42,7 +42,8 @@ public class GeneradorHTML {
 
             for (Noticia n : todasLasNoticias) {
 
-                String noticiaCode = sdfComparador.format(new Date(n.getFechaParsed()));
+                long fechaNoticiaLong = n.getFechaParsed();
+                String noticiaCode = sdfComparador.format(new Date(fechaNoticiaLong));
 
                 if (hoyCode.equals(noticiaCode)) {
                     writer.write("<div class='noticia'>");
@@ -55,7 +56,7 @@ public class GeneradorHTML {
             }
 
             if (contadorNoticiasHoy == 0) {
-                writer.write("<p>No hay noticias registradas para el día de hoy.</p>");
+                writer.write("<p>No hay noticias registradas para el día de hoy</p>");
             }
 
             writer.write(PIE_HTML);
